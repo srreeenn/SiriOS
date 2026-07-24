@@ -1,17 +1,15 @@
-import { cn } from "@/lib/cn";
+import { type ReactNode } from "react";
 
-type TagProps = {
-  children: React.ReactNode;
+interface TagProps {
+  children: ReactNode;
   className?: string;
-};
+}
 
-export function Tag({ children, className }: TagProps) {
+/** Small mono label, accent border, transparent bg — e.g. tech-stack chips. */
+export function Tag({ children, className = "" }: TagProps) {
   return (
     <span
-      className={cn(
-        "font-mono inline-block border border-border-subtle px-2 py-0.5 text-xs text-text-secondary",
-        className,
-      )}
+      className={`inline-block border border-border-subtle px-2 py-0.5 font-mono text-xs uppercase tracking-wide text-text-secondary ${className}`}
     >
       {children}
     </span>

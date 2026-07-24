@@ -1,27 +1,33 @@
-import { cn } from "@/lib/cn";
+import { type ReactNode, type HTMLAttributes } from "react";
 
-type PanelProps = {
-  children: React.ReactNode;
-  className?: string;
-  title?: string;
+interface PanelProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  /** Small mono label rendered top-left, e.g. "about.me" — matches the
+   * frame-tag treatment used on the hero portrait panel. */
+  tag?: string;
+  /** Adds --glow-md box-shadow, per DESIGN_TOKENS.md "Panel" pattern. */
   glow?: boolean;
-};
+}
 
-export function Panel({ children, className, title, glow = false }: PanelProps) {
+/**
+ * Base panel: bg-elevated + 1px accent border, sharp corners.
+ * Every content block in SiriOS (about, stats, project cards, etc.)
+ * should compose this rather than re-declaring the border/bg.
+ */
+export function Panel({ children, tag, glow = false, className = "", ...rest }: PanelProps) {
   return (
-    <section
-      className={cn(
-        "border border-border bg-bg-elevated p-4 md:p-6",
-        glow && "shadow-glow-sm",
-        className,
-      )}
+    <div
+      className={`relative border border-border bg-bg-elevated p-6 ${
+        glow ? "shadow-[var(--glow-md)]" : ""
+      } ${className}`}
+      {...rest}
     >
-      {title && (
-        <h2 className="font-mono mb-4 text-xs uppercase tracking-[0.2em] text-accent">
-          {title}
-        </h2>
+      {tag && (
+        <span className="absolute -top-3 left-4 bg-bg-elevated px-2 font-mono text-xs uppercase tracking-wider text-accent">
+          {tag}
+        </span>
       )}
       {children}
-    </section>
+    </div>
   );
 }

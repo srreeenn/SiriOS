@@ -1,131 +1,95 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { useEffect, useState, type ReactNode } from "react";
 
-const BOOT_STORAGE_KEY = "sirios-boot-complete";
-
-const ASCII_LOGO = `
- ███████╗██╗██████╗ ██╗ ██████╗ ███████╗
- ██╔════╝██║██╔══██╗██║██╔═══██╗██╔════╝
- ███████╗██║██████╔╝██║██║   ██║███████╗
- ╚════██║██║██╔══██╗██║██║   ██║╚════██║
- ███████║██║██║  ██║██║╚██████╔╝███████║
- ╚══════╝╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚══════╝
-`.trim();
+const BOOTED_KEY = "sirios-booted";
+const ASCII_LOGO = String.raw`
+ ▄▄▄▄▄▄▄  ▄▄▄ ▄▄▄▄▄▄▄  ▄▄▄     ▄▄▄▄▄▄   ▄▄▄▄▄▄
+█       ██   █       ██   █   █      █ █      █
+█  ▄▄▄▄▄██   █    ▄▄▄██   █   █  ▄    █ █  ▄    █
+█ █▄▄▄▄▄██   █   █▄▄▄█   █   █ █ █   █ █ █   █
+█▄▄▄▄▄  █   █    ▄▄▄█   █▄▄▄█ █▄█   █ █▄█   █
+ ▄▄▄▄▄█ █   █   █    ███     █       █       █
+█▄▄▄▄▄▄▄█▄▄▄█▄▄▄█    █▄▄▄▄▄▄▄█▄▄▄▄▄▄██▄▄▄▄▄▄██
+`;
 
 const BOOT_LINES = [
-  "initializing kernel...",
-  "loading modules...",
-  "mounting /dev/portfolio",
-  "starting cat.service",
-  "establishing connection...",
-  "system ready.",
+  "sirios kernel v1.0.0",
+  "loading personality modules...",
+  "calibrating hot-pink accent (#ff1493)...",
+  "mounting terminal...",
+  "cat.sys: OK",
 ];
 
-type BootScreenProps = {
-  onComplete: () => void;
-};
+interface BootScreenProps {
+  children: ReactNode;
+}
 
-export function BootScreen({ onComplete }: BootScreenProps) {
-  const [visibleLines, setVisibleLines] = useState<string[]>([]);
-  const [progress, setProgress] = useState(0);
+export function BootScreen({ children }: BootScreenProps) {
+  // null = "haven't checked sessionStorage yet" — avoids a hydration flash
+  const [booted, setBooted] = useState<boolean | null>(null);
+  const [lineIndex, setLineIndex] = useState(0);
   const [ready, setReady] = useState(false);
 
-  const complete = useCallback(() => {
-    sessionStorage.setItem(BOOT_STORAGE_KEY, "true");
-    onComplete();
-  }, [onComplete]);
-
   useEffect(() => {
-    let lineIndex = 0;
-    const lineInterval = setInterval(() => {
-      if (lineIndex < BOOT_LINES.length) {
-        setVisibleLines((prev) => [...prev, BOOT_LINES[lineIndex]]);
-        setProgress(Math.round(((lineIndex + 1) / BOOT_LINES.length) * 100));
-        lineIndex += 1;
-      } else {
-        clearInterval(lineInterval);
-        setReady(true);
-      }
-    }, 400);
-
-    return () => clearInterval(lineInterval);
+    setBooted(window.sessionStorage.getItem(BOOTED_KEY) === "true");
   }, []);
 
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter" || event.key === "Escape") {
-        complete();
-      }
-    };
+    if (booted !== false) return;
 
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [complete]);
+    if (lineIndex < BOOT_LINES.length) {
+      const t = setTimeout(() => setLineIndex((i) => i + 1), 280);
+      return () => clearTimeout(t);
+    }
+    const t = setTimeout(() => setReady(true), 200);
+    return () => clearTimeout(t);
+  }, [booted, lineIndex]);
+
+  const finish = () => {
+    window.sessionStorage.setItem(BOOTED_KEY, "true");
+    setBooted(true);
+  };
+
+  useEffect(() => {
+    if (booted !== false) return;
+    const onKey = () => finish();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [booted]);
+
+  // Still checking sessionStorage, or already booted this session — render straight through.
+  if (booted !== false) return <>{children}</>;
 
   return (
-    <div className="scanlines fixed inset-0 z-[200] flex flex-col items-center justify-center bg-bg px-6">
-      <pre className="font-mono mb-8 whitespace-pre text-[0.45rem] leading-tight text-accent glow-text sm:text-xs md:text-sm">
+    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-bg px-6 font-mono text-text-primary">
+      <pre className="max-w-full overflow-x-auto text-[8px] leading-tight text-accent sm:text-xs">
         {ASCII_LOGO}
       </pre>
 
-      <div className="font-mono mb-6 w-full max-w-md space-y-1 text-xs text-text-secondary">
-        {visibleLines.map((line) => (
-          <p key={line}>
-            <span className="text-accent">&gt;</span> {line}
+      <div className="w-full max-w-sm space-y-1 text-xs text-text-secondary">
+        {BOOT_LINES.slice(0, lineIndex).map((line, i) => (
+          <p key={i}>
+            <span className="text-accent">$</span> {line}
           </p>
         ))}
-        {!ready && (
-          <p className="boot-pulse text-accent">
-            <span className="text-accent">&gt;</span> booting...
-          </p>
-        )}
-      </div>
-
-      <div className="mb-8 w-full max-w-md">
-        <div className="mb-1 flex justify-between font-mono text-xs text-text-muted">
-          <span>loading</span>
-          <span>{progress}%</span>
-        </div>
-        <div className="h-1 border border-border-subtle bg-bg-subtle">
-          <div
-            className="h-full bg-accent transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
       </div>
 
       {ready ? (
-        <Button onClick={complete}>Enter SiriOS</Button>
+        <button
+          onClick={finish}
+          className="border border-accent px-6 py-2 font-mono text-sm uppercase tracking-wider text-accent transition-shadow hover:shadow-[var(--glow-sm)]"
+        >
+          Enter SiriOS
+        </button>
       ) : (
-        <p className="font-mono text-xs text-text-muted">press Enter or Esc to skip</p>
+        <button
+          onClick={finish}
+          className="text-xs text-text-muted underline-offset-2 hover:text-text-secondary hover:underline"
+        >
+          skip
+        </button>
       )}
     </div>
   );
-}
-
-export function shouldShowBoot(): boolean {
-  if (typeof window === "undefined") return false;
-  return sessionStorage.getItem(BOOT_STORAGE_KEY) !== "true";
-}
-
-export function BootGate({ children }: { children: React.ReactNode }) {
-  const [booted, setBooted] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setBooted(sessionStorage.getItem(BOOT_STORAGE_KEY) === "true");
-  }, []);
-
-  if (!mounted) {
-    return <div className="min-h-screen bg-bg" />;
-  }
-
-  if (!booted) {
-    return <BootScreen onComplete={() => setBooted(true)} />;
-  }
-
-  return <>{children}</>;
 }

@@ -1,177 +1,106 @@
-# 🖤 SiriOS
+# Phase 2 — Homepage Content
 
-> A portfolio that feels like an operating system.
-
-![Next.js](https://img.shields.io/badge/Next.js-15-black)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
-![TailwindCSS](https://img.shields.io/badge/Tailwind-v4-38bdf8)
-![React](https://img.shields.io/badge/React-19-61dafb)
-![Status](https://img.shields.io/badge/Status-In_Development-ff2e88)
-
----
-
-## Overview
-
-SiriOS is the personal portfolio of **A Sreenandana Panangattu**.
-
-Instead of feeling like a traditional portfolio, SiriOS is designed as an interactive digital operating system inspired by:
-
-- Anime Gothic
-- Editorial Design
-- Terminal UI
-- Pixel Art
-- Interactive Storytelling
-
-The objective isn't simply to display projects.
-
-The objective is to create an experience that recruiters and developers remember.
-
----
-
-## Philosophy
-
-Most portfolios answer:
-
-> "What projects have you built?"
-
-SiriOS answers:
-
-> "Who are you as an engineer?"
-
-Every interaction, animation, and section exists to tell that story.
-
----
-
-## Design Language
-
-**Anime Gothic** × **Minimal Luxury** × **Terminal Interface** × **Pixel Art** × **Interactive Storytelling**
-
----
-
-## Theme
-
-| Token | Value |
-|-------|-------|
-| Background | Black |
-| Accent | Hot Pink |
-| Typography | Editorial + Monospace |
-| Motion | Smooth, minimal, purposeful |
-
----
-
-## Core Features
-
-### Interactive ASCII Portrait
-
-The anime illustration transforms into ASCII art when hovered. Particles react to cursor movement before reforming into the original illustration.
-
-### Pixel Cat Companion
-
-A tiny pixel cat lives inside SiriOS.
-
-**States:** Idle · Walking · Running · Sleeping · Following cursor · Attack animation · Easter Eggs
-
-The cat exists purely to add personality.
-
-### Interactive Terminal
-
-Visitors can open a working terminal.
-
-**Commands:** `help` · `about` · `projects` · `skills` · `github` · `contact` · `resume` · `clear` · `exit`
-
-### Project Showcase
-
-Each project is presented as an application rather than a portfolio card.
-
-**Sections:** ASCII illustration · Features · Architecture · Gallery · Lessons learned · GitHub · Demo
-
-### Animated Journey
-
-Minimal vertical timeline showing learning, experience, major projects, and current goals.
-
-### GitHub Section
-
-Contribution graph · Latest repositories · Current focus · Repository showcase
-
-### Contact
-
-Simple. Minimal. No unnecessary forms.
-
----
-
-## Tech Stack
-
-| Category | Tools |
-|----------|-------|
-| Frontend | Next.js 15, React 19, TypeScript, Tailwind CSS v4 |
-| Animation | Framer Motion, GSAP, Lenis |
-| Styling | Tailwind CSS, CSS Variables |
-| Icons | Custom Pixel Icons |
-| Deployment | Vercel |
-
----
-
-## Folder Structure
+Maps to IMPLEMENTATION_GUIDE.md Phase 2: About, Applications grid, Skills.
 
 ```
-sirios/
-├── app/
-├── components/
-├── data/
-├── hooks/
-├── lib/
-├── public/
-├── styles/
-├── types/
-└── utils/
+components/about/AboutPanel.tsx
+components/skills/SkillsModules.tsx
+components/projects/AppCard.tsx
+components/projects/FeaturedProjects.tsx
+data/projects.ts
+data/skills.ts
+hooks/useTypewriter.ts
 ```
 
----
+## ⚠️ Placeholder content — edit before shipping
 
-## Performance Goals
+`data/projects.ts` and `data/skills.ts` are filled with placeholder copy
+(CineVerse kept as `featured: true` per PRD.md §13, but its description,
+your skill list, "Project Three," etc. are all stand-ins). Same for the
+bio/philosophy/interests text hardcoded in `AboutPanel.tsx` — PRD.md §12
+says "no large paragraphs," so keep each block to 2–3 sentences when you
+rewrite them.
 
-- Lighthouse 95+
-- 60 FPS
-- Lazy loading
-- SEO optimized
-- Accessible
+## Wiring into your existing `page.tsx`
 
----
+I didn't touch `app/page.tsx` since you've already got your own content
+there. Add these sections wherever they belong in your existing layout —
+each has its own `id` for the sidebar nav anchors (`#about`, `#projects`)
+already baked in:
 
-## Roadmap
+```tsx
+import { Hero } from "@/components/hero/Hero";
+import { AboutPanel } from "@/components/about/AboutPanel";
+import { SkillsModules } from "@/components/skills/SkillsModules";
+import { FeaturedProjects } from "@/components/projects/FeaturedProjects";
 
-### Version 1
+export default function Home() {
+  return (
+    <>
+      <section id="home" className="scroll-mt-20">
+        <Hero />
+      </section>
+      <AboutPanel />
+      <SkillsModules />
+      <FeaturedProjects />
+      {/* JourneyTimeline and Contact land in Phase 3 */}
+    </>
+  );
+}
+```
 
-Homepage · Applications · Skills · GitHub · Journey · Contact · Terminal · Pixel Cat
+## Typing animation on the tagline
 
-### Version 1.1
+`useTypewriter` is a standalone hook — I didn't touch your `Hero.tsx`
+directly since you've already customized it. Wire it in like this:
 
-Spotify integration · GitHub analytics · Better cat AI · More terminal commands
+```tsx
+import { useTypewriter } from "@/hooks/useTypewriter";
 
-### Version 2
+// inside Hero component:
+const tagline = useTypewriter("Software Engineer · Kerala · Anime Gothic");
 
-CMS · AI assistant · Journal · Theme customization
+// in the JSX, replace your static <p> with:
+<p>{tagline}</p>
+```
 
----
+This needs `Hero.tsx` to be a client component (`"use client"` at the top)
+since it uses a hook — it already imports `AsciiPortrait` which is a client
+component too, so this shouldn't change anything about how it renders.
 
-## Credits
+## Notes on choices made
 
-Inspired by editorial websites, terminal interfaces, anime illustration, pixel art, and open source developers.
+- **No colorful skill badges** — `SkillsModules` reuses the existing `Tag`
+  component as-is (accent border, no per-category color), per PRD.md §14's
+  "no colorful badges, consistent styling."
+- **`/projects/[slug]` route doesn't exist yet** — `AppCard` links there
+  already; the actual route + `AppWindow` layout is Phase 3 in
+  IMPLEMENTATION_GUIDE.md. Links will 404 until then, which is expected at
+  this stage.
+- **`FeaturedProjects.tsx`** isn't individually named in
+  SYSTEM_ARCHITECTURE.md's file list (only `AppCard.tsx` is) — it's just
+  the grid wrapper, same kind of small addition as `Shell.tsx` was in
+  Phase 1.
 
----
+## Suggested commit split
 
-## Author
+```bash
+git add data/projects.ts data/skills.ts
+git commit -m "feat(data): add projects and skills content"
 
-**A Sreenandana Panangattu**  
-Full Stack Developer · Kerala, India
+git add components/about/AboutPanel.tsx
+git commit -m "feat(about): add about section with bio/philosophy/interests"
 
-- GitHub: [github.com/srreeenn](https://github.com/srreeenn)
-- LinkedIn: [linkedin.com/in/srreeenn](https://linkedin.com/in/srreeenn)
+git add components/skills/SkillsModules.tsx
+git commit -m "feat(skills): add system-modules skills grid"
 
----
+git add components/projects/AppCard.tsx components/projects/FeaturedProjects.tsx
+git commit -m "feat(projects): add featured projects grid"
 
-## License
+git add hooks/useTypewriter.ts
+git commit -m "feat(hero): add typewriter hook for tagline"
 
-MIT License
-
-Built with ❤️ by Siri.
+# then after you manually wire page.tsx / Hero.tsx:
+git add app/page.tsx components/hero/Hero.tsx
+git commit -m "feat(home): wire About, Skills, Projects sections into homepage"
+```

@@ -1,45 +1,46 @@
 "use client";
 
-import { useState } from "react";
-import { navItems, systemInfo } from "@/data/navigation";
-import { cn } from "@/lib/cn";
+const NAV_ITEMS = [
+  { label: "home", href: "#home" },
+  { label: "about", href: "#about" },
+  { label: "projects", href: "#projects" },
+  { label: "contact", href: "#contact" },
+  // NOTE: WIREFRAMES.md shows a "blog" nav item, but PRD.md §24 lists
+  // "No blog in Version 1" as explicitly out of scope — omitted here.
+];
 
-export function Sidebar() {
-  const [open, setOpen] = useState(false);
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
+export function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <>
-      <button
-        type="button"
-        aria-label="Toggle navigation"
-        aria-expanded={open}
-        onClick={() => setOpen((prev) => !prev)}
-        className="font-mono fixed left-4 top-4 z-50 border border-border bg-bg-elevated px-3 py-2 text-xs text-accent md:hidden"
-      >
-        {open ? "[ close ]" : "[ menu ]"}
-      </button>
+      {/* Mobile scrim */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/70 md:hidden"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
 
       <aside
-        className={cn(
-          "fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-border bg-bg-elevated transition-transform duration-[var(--duration-normal)] md:static md:translate-x-0",
-          open ? "translate-x-0" : "-translate-x-full md:translate-x-0",
-        )}
+        className={`fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col border-r border-border-subtle bg-bg p-6 font-mono transition-transform duration-300 ease-[var(--ease-out)] md:static md:translate-x-0 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        <div className="border-b border-border-subtle p-4">
-          <p className="font-mono text-xs text-text-muted">SREE&apos;S OS</p>
-          <p className="font-display text-lg glow-text text-accent">v{systemInfo.version}</p>
-        </div>
-
-        <nav className="flex-1 p-4" aria-label="Main navigation">
-          <ul className="space-y-1">
-            {navItems.map((item) => (
-              <li key={item.id}>
+        <nav aria-label="Primary">
+          <ul className="space-y-3">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.href}>
                 <a
                   href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="font-mono group flex items-center gap-2 px-2 py-2 text-sm text-text-secondary transition-colors hover:bg-bg-subtle hover:text-accent"
+                  onClick={onClose}
+                  className="flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-accent"
                 >
-                  <span className="text-accent opacity-60 group-hover:opacity-100">◆</span>
+                  <span className="text-accent">◆</span>
                   {item.label}
                 </a>
               </li>
@@ -47,38 +48,24 @@ export function Sidebar() {
           </ul>
         </nav>
 
-        <div className="space-y-4 border-t border-border-subtle p-4">
-          <div>
-            <p className="font-mono mb-2 text-xs uppercase tracking-wider text-accent">
-              cat status
-            </p>
-            <div className="border border-border-subtle bg-bg p-3">
-              <p className="font-mono text-xs text-text-secondary">mood: offline</p>
-              <p className="font-mono text-xs text-text-muted">&gt; coming in phase 4</p>
-            </div>
-          </div>
+        <div className="my-6 h-px bg-border-subtle" />
 
-          <div>
-            <p className="font-mono mb-2 text-xs uppercase tracking-wider text-accent">
-              system info
-            </p>
-            <ul className="font-mono space-y-1 text-xs text-text-secondary">
-              <li>ram: {systemInfo.ram}</li>
-              <li>uptime: {systemInfo.uptime}</li>
-              <li>loc: {systemInfo.location}</li>
-            </ul>
-          </div>
+        {/* Cat status — real state arrives with PixelCat (Phase 4a); shown
+           as "offline" for now since cat mode isn't wired up yet. */}
+        <div className="space-y-1">
+          <p className="text-xs uppercase tracking-wider text-text-muted">cat status</p>
+          <p className="text-sm text-text-secondary">mood: —</p>
+          <p className="text-xs text-text-muted">&gt; cat: offline</p>
+        </div>
+
+        <div className="my-6 h-px bg-border-subtle" />
+
+        <div className="space-y-1">
+          <p className="text-xs uppercase tracking-wider text-text-muted">system info</p>
+          <p className="text-sm text-text-secondary">ram: 16gb</p>
+          <p className="text-sm text-text-secondary">uptime: 2y</p>
         </div>
       </aside>
-
-      {open && (
-        <button
-          type="button"
-          aria-label="Close navigation overlay"
-          className="fixed inset-0 z-30 bg-black/60 md:hidden"
-          onClick={() => setOpen(false)}
-        />
-      )}
     </>
   );
 }
