@@ -8,7 +8,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between border-b border-border-subtle px-4 py-3 font-mono text-sm">
+      <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-border-subtle bg-bg px-4 font-mono text-sm">
         <span className="tracking-wider text-text-primary">SREE&apos;S OS v1.0.0</span>
         <button
           type="button"

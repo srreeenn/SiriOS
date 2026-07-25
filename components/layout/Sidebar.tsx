@@ -26,11 +26,11 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         />
       )}
 
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col overflow-y-auto border-r border-border-subtle bg-bg p-6 font-mono transition-transform duration-300 ease-[var(--ease-out)] md:sticky md:top-0 md:h-screen md:translate-x-0 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
+        <aside
+          className={`fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col overflow-y-auto border-r border-border-subtle bg-bg p-6 font-mono transition-transform duration-300 ease-[var(--ease-out)] md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] md:translate-x-0 ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
         <nav aria-label="Primary">
           <ul className="space-y-3">
             {NAV_ITEMS.map((item) => (
