@@ -11,10 +11,11 @@ export interface SkillModule {
     { category: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "Framer Motion"] },
     { category: "Backend", items: ["Node.js", "Express", "REST APIs"] },
     { category: "Database", items: ["PostgreSQL", "MongoDB", "Redis"] },
-    { category: "DevOps", items: ["Docker", "Vercel", "GitHub Actions"] },
+    { category: "DevOps", items: ["Docker", "GitHub Actions", "Vercel", "Railway"] },
     { category: "AI", items: ["OpenAI API", "LangChain"] },
-    { category: "Design", items: ["Figma", "Design Systems"] },
-    { category: "Tools", items: ["Git", "VS Code", "Postman"] },
-    { category: "Currently Learning", items: ["Rust", "System Design"] },
+    { category: "ML", items: ["scikit-learn", "Pandas"] },
+    { category: "Design", items: ["Figma", "Design Systems", "Framer"] },
+    { category: "Tools", items: ["Git", "VS Code", "Cursor", "Antigravity", "Claude Code"] },
+    { category: "Currently Learning", items: ["FastAPI", "Microservices", "System Design", "AWS", "Kubernetes"] },
   ];
   

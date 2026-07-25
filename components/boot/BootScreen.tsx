@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const BOOTED_KEY = "sirios-booted";
+
 const ASCII_LOGO = String.raw`
- ▄▄▄▄▄▄▄  ▄▄▄ ▄▄▄▄▄▄▄  ▄▄▄     ▄▄▄▄▄▄   ▄▄▄▄▄▄
-█       ██   █       ██   █   █      █ █      █
-█  ▄▄▄▄▄██   █    ▄▄▄██   █   █  ▄    █ █  ▄    █
-█ █▄▄▄▄▄██   █   █▄▄▄█   █   █ █ █   █ █ █   █
-█▄▄▄▄▄  █   █    ▄▄▄█   █▄▄▄█ █▄█   █ █▄█   █
- ▄▄▄▄▄█ █   █   █    ███     █       █       █
-█▄▄▄▄▄▄▄█▄▄▄█▄▄▄█    █▄▄▄▄▄▄▄█▄▄▄▄▄▄██▄▄▄▄▄▄██
+███████╗██╗██████╗ ██╗
+██╔════╝██║██╔══██╗██║
+███████╗██║██████╔╝██║
+╚════██║██║██╔══██╗██║
+███████║██║██║  ██║██║
+╚══════╝╚═╝╚═╝  ╚═╝╚═╝
 `;
 
 const BOOT_LINES = [
@@ -21,75 +22,114 @@ const BOOT_LINES = [
   "cat.sys: OK",
 ];
 
+const LINE_DELAY_MS = 280;
+
 interface BootScreenProps {
   children: ReactNode;
 }
 
 export function BootScreen({ children }: BootScreenProps) {
-  // null = "haven't checked sessionStorage yet" — avoids a hydration flash
-  const [booted, setBooted] = useState<boolean | null>(null);
+  // Defaults to false (not true/null) so server and pre-effect client render
+  // agree — no hydration mismatch, and no flash of `children` before the
+  // overlay appears on first visit.
+  const [booted, setBooted] = useState(false);
   const [lineIndex, setLineIndex] = useState(0);
   const [ready, setReady] = useState(false);
+  const dismissRef = useRef<HTMLButtonElement>(null);
+  const reducedMotion = useReducedMotion();
 
-  useEffect(() => {
-    setBooted(window.sessionStorage.getItem(BOOTED_KEY) === "true");
+  // useLayoutEffect (not useEffect) so an already-booted-this-session visit
+  // flips `booted` to true *before* paint — no flash of the boot screen on
+  // repeat navigations within the same session.
+  useLayoutEffect(() => {
+    if (window.sessionStorage.getItem(BOOTED_KEY) === "true") {
+      setBooted(true);
+    }
   }, []);
 
   useEffect(() => {
-    if (booted !== false) return;
+    if (booted) return;
+
+    if (reducedMotion) {
+      setLineIndex(BOOT_LINES.length);
+      setReady(true);
+      return;
+    }
 
     if (lineIndex < BOOT_LINES.length) {
-      const t = setTimeout(() => setLineIndex((i) => i + 1), 280);
+      const t = setTimeout(() => setLineIndex((i) => i + 1), LINE_DELAY_MS);
       return () => clearTimeout(t);
     }
     const t = setTimeout(() => setReady(true), 200);
     return () => clearTimeout(t);
-  }, [booted, lineIndex]);
+  }, [booted, lineIndex, reducedMotion]);
 
   const finish = () => {
     window.sessionStorage.setItem(BOOTED_KEY, "true");
     setBooted(true);
   };
 
+  // Move focus into the overlay once there's something focusable, and trap
+  // "any key to continue" — but excluding Tab/Shift/modifier keys, which
+  // need to keep working normally so keyboard users can actually reach
+  // the skip/enter button instead of it firing on the Tab press itself.
   useEffect(() => {
-    if (booted !== false) return;
-    const onKey = () => finish();
+    if (booted) return;
+    dismissRef.current?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Tab" || e.ctrlKey || e.altKey || e.metaKey) return;
+      finish();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [booted]);
+  }, [booted, ready]);
 
-  // Still checking sessionStorage, or already booted this session — render straight through.
-  if (booted !== false) return <>{children}</>;
+  if (booted) return <>{children}</>;
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-bg px-6 font-mono text-text-primary">
-      <pre className="max-w-full overflow-x-auto text-[8px] leading-tight text-accent sm:text-xs">
-        {ASCII_LOGO}
-      </pre>
+    <>
+      {/* Content stays mounted underneath (SEO / no-JS visibility) — the
+         overlay just covers it. Nothing here relies on `children` being
+         absent. */}
+      {children}
 
-      <div className="w-full max-w-sm space-y-1 text-xs text-text-secondary">
-        {BOOT_LINES.slice(0, lineIndex).map((line, i) => (
-          <p key={i}>
-            <span className="text-accent">$</span> {line}
-          </p>
-        ))}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="SiriOS boot sequence"
+        className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-bg px-6 font-mono text-text-primary"
+      >
+        <pre
+          aria-hidden="true"
+          className="max-w-full overflow-x-auto text-[8px] leading-tight text-accent sm:text-xs"
+        >
+          {ASCII_LOGO}
+        </pre>
+
+        <div
+          aria-live="polite"
+          className="w-full max-w-sm space-y-1 text-xs text-text-secondary"
+        >
+          {BOOT_LINES.slice(0, lineIndex).map((line, i) => (
+            <p key={i}>
+              <span className="text-accent">$</span> {line}
+            </p>
+          ))}
+        </div>
+
+        <button
+          ref={dismissRef}
+          onClick={finish}
+          className={
+            ready
+              ? "border border-accent px-6 py-2 font-mono text-sm uppercase tracking-wider text-accent transition-shadow hover:shadow-[var(--glow-sm)]"
+              : "text-xs text-text-muted underline-offset-2 hover:text-text-secondary hover:underline"
+          }
+        >
+          {ready ? "Enter" : "skip"}
+        </button>
       </div>
-
-      {ready ? (
-        <button
-          onClick={finish}
-          className="border border-accent px-6 py-2 font-mono text-sm uppercase tracking-wider text-accent transition-shadow hover:shadow-[var(--glow-sm)]"
-        >
-          Enter SiriOS
-        </button>
-      ) : (
-        <button
-          onClick={finish}
-          className="text-xs text-text-muted underline-offset-2 hover:text-text-secondary hover:underline"
-        >
-          skip
-        </button>
-      )}
-    </div>
+    </>
   );
 }
