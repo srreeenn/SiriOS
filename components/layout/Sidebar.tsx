@@ -27,9 +27,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       )}
 
         <aside
-          className={`fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col overflow-y-auto border-r border-border-subtle bg-bg p-6 font-mono transition-transform duration-300 ease-[var(--ease-out)] md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] md:translate-x-0 ${
-            isOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+            className={`fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col overflow-y-auto border-r border-border-subtle bg-bg p-6 font-mono transition-transform duration-300 ease-[var(--ease-out)] md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] md:translate-x-0 ${
+              isOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
         >
         <nav aria-label="Primary">
           <ul className="space-y-3">
@@ -60,11 +60,6 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         <div className="my-6 h-px bg-border-subtle" />
 
-        <div className="space-y-1">
-          <p className="text-xs uppercase tracking-wider text-text-muted">system info</p>
-          <p className="text-sm text-text-secondary">ram: 16gb</p>
-          <p className="text-sm text-text-secondary">uptime: 2y</p>
-        </div>
       </aside>
     </>
   );

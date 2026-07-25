@@ -11,10 +11,13 @@ export function Hero() {
   const typingDone = typed.length === FULL_NAME.length;
 
   return (
-    <section className="grid lg:grid-cols-2 items-center gap-12">
-      <div>
-        <p className="font-mono text-sm text-text-secondary">hi, i&apos;m</p>
-        <h1 className="font-mono text-4xl sm:text-6xl tracking-wide text-text-primary">
+    <section className="grid lg:grid-cols-[0.95fr_1.05fr] items-center gap-6 min-h-[78vh]">
+      <div className="pl-12 lg:pl-20">
+        <p className="mb-3 font-mono text-sm text-text-secondary">
+          hi, i&apos;m
+        </p>
+
+        <h1 className="font-mono text-5xl sm:text-7xl leading-[0.9] tracking-tight text-text-primary">
           {typingDone ? (
             <GlitchText text={FULL_NAME} />
           ) : (
@@ -24,9 +27,15 @@ export function Hero() {
             </>
           )}
         </h1>
-        <p className="mt-4 text-text-secondary">Software Engineer...</p>
+
+        <p className="mt-8 text-lg text-text-secondary">
+          Software Engineer...
+        </p>
       </div>
-      <AsciiPortrait src="/assets/portrait.png" alt="" />
+
+      <div className="flex justify-center lg:justify-end">
+        <AsciiPortrait src="/assets/portrait.png" alt="" className="translate-x-6" />
+      </div>
     </section>
   );
 }

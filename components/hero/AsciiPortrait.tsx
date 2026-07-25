@@ -218,7 +218,7 @@ export function AsciiPortrait({
   }, []);
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative w-full max-w-[520px] mx-auto ${className}`}>
       <div
         ref={panelRef}
         className="relative aspect-[640/617] overflow-hidden touch-none"
@@ -239,7 +239,7 @@ export function AsciiPortrait({
         onPointerCancel={deactivate}
         aria-hidden="true"
       >
-        <Image ref={imgRef} src={src} alt={alt} fill priority className="object-cover" />
+        <Image ref={imgRef} src={src} alt={alt} fill priority className="object-contain" />
 
         <canvas
           ref={canvasRef}
