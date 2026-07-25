@@ -1,13 +1,9 @@
+// hooks/useTypewriter.ts
 "use client";
 
 import { useEffect, useState } from "react";
 import { useReducedMotion } from "./useReducedMotion";
 
-/**
- * Types out `text` one character at a time. Under prefers-reduced-motion,
- * returns the full text immediately — no animation, per PRD.md §10
- * ("No autoplay animation").
- */
 export function useTypewriter(text: string, speedMs = 35) {
   const reducedMotion = useReducedMotion();
   const [output, setOutput] = useState(reducedMotion ? text : "");
