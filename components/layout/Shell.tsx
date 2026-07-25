@@ -2,14 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { Sidebar } from "./Sidebar";
-import { TerminalBar } from "./TerminalBar";
 
-/**
- * Not called out as its own file in SYSTEM_ARCHITECTURE.md — added here to
- * hold the mobile drawer open/close state that the top bar's hamburger and
- * Sidebar both need. Everything it renders (Sidebar, TerminalBar) still
- * matches the architecture doc's component hierarchy.
- */
 export function Shell({ children }: { children: ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -32,8 +25,6 @@ export function Shell({ children }: { children: ReactNode }) {
         <Sidebar isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
         <main className="flex-1 overflow-x-hidden">{children}</main>
       </div>
-
-      <TerminalBar />
     </div>
   );
 }

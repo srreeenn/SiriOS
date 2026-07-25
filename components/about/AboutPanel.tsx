@@ -21,19 +21,25 @@ const BLOCKS = [
   },
 ];
 
+// Previously 4 separate Panel boxes in a grid — consolidated into one panel
+// with plain labeled rows and hairline dividers between them, so it reads
+// as one block of content instead of four stacked cards.
 export function AboutPanel() {
   return (
     <section id="about" className="scroll-mt-20 px-4 py-16 md:px-8">
       <h2 className="mb-6 font-mono text-xs uppercase tracking-widest text-text-muted">
         about.me
       </h2>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <Panel className="divide-y divide-border-subtle !p-0">
         {BLOCKS.map((block) => (
-          <Panel key={block.label} tag={block.label}>
-            <p className="text-sm text-text-secondary">{block.text}</p>
-          </Panel>
+          <div key={block.label} className="px-6 py-4 first:pt-6 last:pb-6">
+            <p className="font-mono text-xs uppercase tracking-wider text-accent">
+              {block.label}
+            </p>
+            <p className="mt-1 text-sm text-text-secondary">{block.text}</p>
+          </div>
         ))}
-      </div>
+      </Panel>
     </section>
   );
 }

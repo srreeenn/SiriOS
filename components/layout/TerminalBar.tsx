@@ -33,7 +33,9 @@ export function TerminalBar() {
   };
 
   return (
-    <footer className="flex items-center justify-between gap-4 border-t border-border-subtle bg-bg px-4 py-3 font-mono text-sm">
+    // sticky bottom-0 — was static, so it only appeared once you'd scrolled
+    // to the very end of the page instead of acting like a taskbar.
+    <footer className="sticky bottom-0 z-30 flex items-center justify-between gap-4 border-t border-border-subtle bg-bg px-4 py-3 font-mono text-sm">
       <form onSubmit={handleSubmit} className="flex flex-1 items-center gap-2">
         <span className="text-accent">sree@sirios:~$</span>
         <input

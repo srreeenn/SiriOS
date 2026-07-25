@@ -5,13 +5,14 @@ interface TagProps {
   className?: string;
 }
 
-/** Small mono label, accent border, transparent bg — e.g. tech-stack chips. */
+/**
+ * A tech-stack / category label. Previously rendered as a bordered pill —
+ * changed to plain mono text so a row of 4-6 of these doesn't read as a
+ * cluster of boxes. Color + monospace still make it legible as a "tag"
+ * without adding a border.
+ */
 export function Tag({ children, className = "" }: TagProps) {
   return (
-    <span
-      className={`inline-block border border-border-subtle px-2 py-0.5 font-mono text-xs uppercase tracking-wide text-text-secondary ${className}`}
-    >
-      {children}
-    </span>
+    <span className={`font-mono text-xs text-text-secondary ${className}`}>{children}</span>
   );
 }

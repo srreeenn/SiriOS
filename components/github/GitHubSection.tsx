@@ -27,7 +27,7 @@ export async function GitHubSection() {
       {repos && repos.length > 0 && (
         <ul className="mt-4 space-y-2">
           {repos.map((repo) => (
-            <li key={repo.name}>
+            <li key={repo.name} className="flex items-center gap-2">
               <a
                 href={repo.html_url}
                 target="_blank"
@@ -36,7 +36,7 @@ export async function GitHubSection() {
               >
                 {repo.name}
               </a>
-              {repo.language && <Tag className="ml-2">{repo.language}</Tag>}
+              {repo.language && <Tag>{repo.language}</Tag>}
             </li>
           ))}
         </ul>
