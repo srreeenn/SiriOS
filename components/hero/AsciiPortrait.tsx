@@ -12,7 +12,6 @@ interface AsciiPortraitProps {
   className?: string;
 }
 
-// Dissolve-zone tuning — all in CSS/display px, not source-image px.
 const RADIUS = 70;
 const EDGE = 28;
 
@@ -29,7 +28,6 @@ export function AsciiPortrait({
   const particlesRef = useRef<AsciiParticle[]>([]);
   const sourceRef = useRef({ w: 0, h: 0 });
 
-  // pointer + reveal-circle state, all in panel-relative CSS px
   const pointerRef = useRef({ x: 0, y: 0 });
   const centerRef = useRef({ x: 0, y: 0 });
   const targetRadiusRef = useRef(0);
@@ -73,7 +71,6 @@ export function AsciiPortrait({
     canvas.style.height = `${rect.height}px`;
   };
 
-  // source-image px -> panel-relative CSS px (object-fit: cover)
   const toDisplaySpace = (px: number, py: number): [number, number, number] => {
     const panel = panelRef.current;
     const { w: W, h: H } = sourceRef.current;
@@ -117,7 +114,6 @@ export function AsciiPortrait({
         return;
       }
 
-      // ease the reveal circle toward the pointer
       centerRef.current.x += (pointerRef.current.x - centerRef.current.x) * 0.35;
       centerRef.current.y += (pointerRef.current.y - centerRef.current.y) * 0.35;
       currentRadiusRef.current +=
@@ -134,7 +130,7 @@ export function AsciiPortrait({
         for (const p of particlesRef.current) {
           const [dx0, dy0, scale] = toDisplaySpace(p.hx, p.hy);
           const dist = Math.hypot(dx0 - center.x, dy0 - center.y);
-          if (dist > drawRadius) continue; // outside dissolve zone — skip entirely
+          if (dist > drawRadius) continue;
 
           const wave = Math.sin(time * 0.003 + p.phase);
           let tx = p.hx + wave * 1.1;
@@ -162,7 +158,6 @@ export function AsciiPortrait({
 
           ctx.font = `${p.size * scale * dpr}px "JetBrains Mono", monospace`;
 
-          // colored glow layer
           ctx.globalAlpha = 0.85 * alpha;
           ctx.shadowBlur = 10;
           ctx.shadowColor = p.color;
@@ -170,7 +165,6 @@ export function AsciiPortrait({
           ctx.fillText(p.ch, cx * dpr, cy * dpr);
           ctx.shadowBlur = 0;
 
-          // white overlay char
           ctx.globalAlpha = 0.6 * alpha;
           ctx.fillStyle = "#F5F5F5";
           ctx.fillText(p.ch, cx * dpr, cy * dpr);
@@ -227,7 +221,7 @@ export function AsciiPortrait({
     <div className={`relative ${className}`}>
       <div
         ref={panelRef}
-        className="relative aspect-[640/617] overflow-hidden border border-[var(--color-border)] bg-black touch-none"
+        className="relative aspect-[640/617] overflow-hidden touch-none"
         onPointerDown={(e) => activate(e.clientX, e.clientY)}
         onPointerEnter={(e) => {
           if (e.pointerType === "mouse") activate(e.clientX, e.clientY);
@@ -250,10 +244,6 @@ export function AsciiPortrait({
         <canvas
           ref={canvasRef}
           className="pointer-events-none absolute inset-0 h-full w-full"
-        />
-
-        <div
-          className="pointer-events-none absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px)] bg-[length:100%_5px]"
         />
       </div>
     </div>
