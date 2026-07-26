@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
-export type Section = "home" | "about" | "projects" | "skills" | "journey" | "contact";
+export type Section = "home" | "about" | "projects" | "skills" | "journey" | "certificates" | "contact";
 
 interface SectionContextValue {
   active: Section;

@@ -9,6 +9,7 @@ interface HomeContentProps {
   projects: ReactNode;
   skills: ReactNode;
   journey: ReactNode;
+  certificates: ReactNode;
   contact: ReactNode;
 }
 
@@ -18,6 +19,7 @@ export function HomeContent({
   projects,
   skills,
   journey,
+  certificates,
   contact,
 }: HomeContentProps) {
   const { active } = useSection();
@@ -29,6 +31,7 @@ export function HomeContent({
       {active === "projects" && projects}
       {active === "skills" && skills}
       {active === "journey" && journey}
+      {active === "certificates" && certificates}
       {active === "contact" && contact}
     </div>
   );

@@ -5,19 +5,19 @@ import { Panel } from "@/components/ui/Panel";
 const BLOCKS = [
   {
     label: "bio",
-    text: "Full-stack developer based in Kerala, building interfaces that feel considered rather than templated.",
+    text: "Full-stack developer based in Kerala, building scalable web applications with modern frontend technologies, microservices, and a growing interest in AI-powered software.",
   },
   {
-    label: "philosophy",
-    text: "Good engineering is invisible; good design is memorable. Aim for both at once.",
+    label: "current focus",
+    text: "Building projects that combine clean design, solid engineering, and real-world problem solving. Learning by shipping, iterating, and improving every release.",
   },
   {
     label: "interests",
-    text: "Anime, terminal aesthetics, and the occasional 2am refactor.",
+    text: "Coding, Anime, Movies, Music, UI Design, Photography, Travel.",
   },
   {
     label: "currently learning",
-    text: "Rust and distributed systems design.",
+    text: "System Design, Docker, CI/CD, Cloud Fundamentals, SEO, Japanese Language.",
   },
 ];
 

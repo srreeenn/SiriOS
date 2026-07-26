@@ -8,6 +8,7 @@ const NAV_ITEMS: { label: string; id: Section }[] = [
   { label: "projects", id: "projects" },
   { label: "skills", id: "skills" },
   { label: "journey", id: "journey" },
+  { label: "certificates", id: "certificates" },
   { label: "contact", id: "contact" },
 ];
 

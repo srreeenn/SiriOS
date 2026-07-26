@@ -7,7 +7,7 @@ import { FeaturedProjects } from "@/components/projects/FeaturedProjects";
 import { Timeline } from "@/components/journey/Timeline";
 import { ContactSection } from "@/components/contact/ContactSection";
 import { HomeContent } from "@/components/layout/HomeContent";
-
+import { CertificatesSection } from "@/components/certificates/CertificatesSection";
 export default function Home() {
   return (
     <HomeContent
@@ -30,6 +30,7 @@ export default function Home() {
       }
       skills={<SkillsModules />}
       journey={<Timeline />}
+      certificates={<CertificatesSection />}
       contact={<ContactSection />}
     />
   );
