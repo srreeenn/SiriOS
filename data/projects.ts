@@ -6,6 +6,7 @@ export interface Project {
   featured?: boolean;
   githubUrl?: string;
   demoUrl?: string;
+  image: string; // "/assets/projects/cineverse.png"
 
   description: string;
   features: string[];
@@ -30,6 +31,7 @@ export const projects: Project[] = [
     featured: true,
     githubUrl: "https://github.com/srreeenn/cineverse",
     demoUrl: "",
+    image: "/assets/projects/cineverse.png", // TODO
     description:
       "CineVerse is a full-stack movie discovery platform that allows users to explore movies, manage watchlists and favorites, write reviews, and receive AI-powered personalized recommendations using a production-style microservices architecture.",
     features: [
@@ -59,6 +61,7 @@ export const projects: Project[] = [
     ],
     githubUrl: "https://github.com/srreeenn/qiqi-store",
     demoUrl: "https://qiqi-store.vercel.app",
+    image: "", //TODO
     description:
       "QiQi Store is a premium fashion e-commerce application featuring a clean shopping experience, animated interfaces, secure checkout, and responsive design.",
     features: [
@@ -87,6 +90,7 @@ export const projects: Project[] = [
       "Jupyter Notebook",
     ],
     githubUrl: "https://github.com/Devinandhana/hackathena",
+    image: "/assets/projects/phishguard.png",
     description:
       "PhishGuard is a machine learning project that analyzes website features to detect phishing attacks. Developed during a cybersecurity hackathon using supervised learning techniques.",
     features: [
