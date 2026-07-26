@@ -1,6 +1,7 @@
 "use client";
 
 import { useSection, type Section } from "@/lib/section-context";
+import { MusicDisc } from "@/components/layout/MusicDisc";
 
 const NAV_ITEMS: { label: string; id: Section }[] = [
   { label: "home", id: "home" },
@@ -69,10 +70,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         <div className="my-6 h-px bg-border-subtle" />
 
-        <div className="space-y-1">
-          <p className="text-xs uppercase tracking-wider text-text-muted">system info</p>
-          <p className="text-sm text-text-secondary">ram: 16gb</p>
-          <p className="text-sm text-text-secondary">uptime: 2y</p>
+        <div className="mt-auto">
+          <MusicDisc />
         </div>
       </aside>
     </>
