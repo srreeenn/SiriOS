@@ -31,7 +31,7 @@ export const projects: Project[] = [
     featured: true,
     githubUrl: "https://github.com/srreeenn/cineverse",
     demoUrl: "",
-    image: "/assets/projects/cineverse.png", // TODO
+    image: "/assets/cineverse.png", // TODO
     description:
       "CineVerse is a full-stack movie discovery platform that allows users to explore movies, manage watchlists and favorites, write reviews, and receive AI-powered personalized recommendations using a production-style microservices architecture.",
     features: [
@@ -51,7 +51,7 @@ export const projects: Project[] = [
   {
     slug: "qiqistore",
     name: "QiQi Store",
-    tagline: "Premium fashion e-commerce platform with a modern shopping experience.",
+    tagline: "Premium fashion e-commerce platform with a modern shopping experience and integrated Razor pay test mode.",
     stack: [
       "Next.js",
       "TypeScript",
@@ -61,7 +61,7 @@ export const projects: Project[] = [
     ],
     githubUrl: "https://github.com/srreeenn/qiqi-store",
     demoUrl: "https://qiqi-store.vercel.app",
-    image: "", //TODO
+    image: "/assets/qiqistore.png", //TODO
     description:
       "QiQi Store is a premium fashion e-commerce application featuring a clean shopping experience, animated interfaces, secure checkout, and responsive design.",
     features: [
@@ -90,7 +90,7 @@ export const projects: Project[] = [
       "Jupyter Notebook",
     ],
     githubUrl: "https://github.com/Devinandhana/hackathena",
-    image: "/assets/projects/phishguard.png",
+    image: "/assets/phishguard.png",
     description:
       "PhishGuard is a machine learning project that analyzes website features to detect phishing attacks. Developed during a cybersecurity hackathon using supervised learning techniques.",
     features: [
