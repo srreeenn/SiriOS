@@ -11,8 +11,8 @@ import { ContactSection } from "@/components/contact/ContactSection";
 export default function Home() {
   return (
     <main>
-      <section id="home">
-        <Hero />
+      <section id="home" className="scroll-mt-14">
+      <Hero />
       </section>
  
       {/* AboutPanel renders its own <section id="about"> with its own

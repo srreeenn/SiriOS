@@ -12,12 +12,12 @@ export function Hero() {
 
   return (
     <section className="grid lg:grid-cols-[0.95fr_1.05fr] items-center gap-6 min-h-[78vh]">
-      <div className="pl-12 lg:pl-20">
+      <div className="pl-8 lg:pl-16">
         <p className="mb-3 font-mono text-sm text-text-secondary">
           hi, i&apos;m
         </p>
 
-        <h1 className="font-mono text-5xl sm:text-7xl leading-[0.9] tracking-tight text-text-primary">
+        <h1 className="font-mono font-semibold leading-[0.9] tracking-tight text-[clamp(2.25rem,5vw,5rem)] text-text-primary">
           {typingDone ? (
             <GlitchText text={FULL_NAME} />
           ) : (
@@ -29,12 +29,12 @@ export function Hero() {
         </h1>
 
         <p className="mt-8 text-lg text-text-secondary">
-          Software Engineer...
+          ASPIRING SOFTWARE ENGINEER
         </p>
       </div>
 
       <div className="flex justify-center lg:justify-end">
-        <AsciiPortrait src="/assets/portrait.png" alt="" className="translate-x-6" />
+        <AsciiPortrait src="/assets/portrait.png" alt="" />
       </div>
     </section>
   );
