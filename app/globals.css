@@ -53,7 +53,7 @@ body {
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-mono);
 }
 
 /* Sharp corners per DESIGN_TOKENS.md — "no heavy rounding" */
