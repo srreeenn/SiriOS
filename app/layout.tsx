@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "SiriOS — Sreenandana Panangattu",
+  title: "A Sreenandana Panangattu",
   description: "Full-stack developer portfolio, presented as a personal operating system.",
 };
 
