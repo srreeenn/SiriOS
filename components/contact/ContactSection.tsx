@@ -6,7 +6,7 @@ const CONTACT = {
   whatsapp: "https://wa.me/918921242481", // TODO: replace with real number
   github: "https://github.com/srreeenn",
   linkedin: "https://linkedin.com/in/srreeenn",
-  resume: "/resume.pdf",
+  resume: "/assets/siri.pdf",
 };
 
 function WhatsAppIcon({ className }: { className?: string }) {
