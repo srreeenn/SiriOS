@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Tag } from "@/components/ui/Tag";
 import { Button } from "@/components/ui/Button";
 import type { Project } from "@/data/projects";
+import { ScreenshotScroll } from "@/components/projects/ScreenshotScroll";
 
 const TABS = ["features", "architecture", "lessons", "github", "demo"] as const;
 type Tab = (typeof TABS)[number];
@@ -25,6 +26,11 @@ export function AppWindow({ project }: { project: Project }) {
           ×
         </Link>
       </div>
+
+      {/* screenshot — only for projects that opt in */}
+      {project.showScreenshot && (
+        <ScreenshotScroll src={project.image} alt={`${project.name} screenshot`} />
+      )}
 
       <div className="p-6">
         <p className="text-sm text-text-secondary">{project.tagline}</p>
