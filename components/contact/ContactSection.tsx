@@ -6,6 +6,7 @@ const CONTACT = {
   whatsapp: "https://wa.me/918921242481", // TODO: replace with real number
   github: "https://github.com/srreeenn",
   linkedin: "https://linkedin.com/in/srreeenn",
+  x: "https://x.com/devsrreeenn",
   resume: "/assets/siri.pdf",
 };
 
@@ -33,8 +34,16 @@ function LinkedinIcon({ className }: { className?: string }) {
   );
 }
 
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.847h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.153h7.594l5.243 6.932 6.064-6.932Zm-1.291 19.492h2.039L6.486 3.247H4.298L17.61 20.645Z" />
+    </svg>
+  );
+}
+
 const LINKS = [
-  { label: "email me", href: `mailto:${CONTACT.email}`, icon: Mail },
+  { label: "email", href: `mailto:${CONTACT.email}`, icon: Mail },
   {
     label: "whatsapp",
     href: CONTACT.whatsapp,
@@ -48,7 +57,18 @@ const LINKS = [
     icon: LinkedinIcon,
     external: true,
   },
-  { label: "resume", href: CONTACT.resume, icon: FileText, external: true },
+  {
+    label: "x",
+    href: CONTACT.x,
+    icon: XIcon,
+    external: true,
+  },
+  {
+    label: "resume",
+    href: CONTACT.resume,
+    icon: FileText,
+    external: true,
+  },
 ];
 
 // PRD.md §17: "Simple. Contains: Email, GitHub, LinkedIn, Resume, Closing
@@ -74,19 +94,26 @@ export function ContactSection() {
           Messages from curious minds and great teams are always welcome.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            {LINKS.map(({ label, href, icon: Icon, external }) => (
+          <div className="mt-8 mb-6 flex flex-wrap gap-5">
+          {LINKS.map(({ label, href, icon: Icon, external }) => (
+            <div key={label} className="relative group">
+              {/* Terminal Label */}
+              <div className="pointer-events-none absolute top-full left-1/2 mt-2 -translate-x-1/2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+                  {label}
+                </span>
+              </div>
+
               <a
-                key={label}
                 href={href}
                 {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
                 aria-label={label}
-                title={label}
-                className="group flex h-14 w-14 items-center justify-center border border-border-subtle text-text-secondary transition-all duration-[var(--duration-fast)] hover:border-accent hover:text-accent hover:shadow-[var(--glow-md)]"
+                className="flex h-14 w-14 items-center justify-center border border-border-subtle text-text-secondary transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:text-accent hover:shadow-[var(--glow-md)]"
               >
-                <Icon className="h-6 w-6 transition-transform duration-[var(--duration-fast)] group-hover:scale-110" />
+                <Icon className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
               </a>
-            ))}
+            </div>
+          ))}
           </div>
         </div>
       </div>
