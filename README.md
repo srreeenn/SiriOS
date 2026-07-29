@@ -122,7 +122,7 @@ The design follows a few simple principles.
 * [x] About Section
 * [x] Skills Modules
 * [x] Featured Projects
-* [ ] Project Detail Pages
+* [x] Project Detail Pages
 * [ ] Interactive Timeline
 * [ ] Contact Application
 * [ ] Blog
@@ -156,11 +156,11 @@ Inspired by:
 
 Portfolio: **(Coming Soon)**
 
-GitHub: **https://github.com/yourusername**
+GitHub: **https://github.com/srreeenn**
 
-LinkedIn: **https://linkedin.com/in/yourusername**
+LinkedIn: **https://linkedin.com/in/srreeenn**
 
-Email: **[you@example.com](mailto:you@example.com)**
+Email: **[you@example.com](mailto:sreenandanapa16@gmail.com)**
 
 ---
 
