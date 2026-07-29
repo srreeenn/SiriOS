@@ -1,106 +1,167 @@
-# Phase 2 — Homepage Content
+# ⚡ SiriOS
 
-Maps to IMPLEMENTATION_GUIDE.md Phase 2: About, Applications grid, Skills.
+> **My personal operating system.**
+>
+> A portfolio built with an Anime Gothic aesthetic, terminal-inspired interactions, and editorial design to showcase my work as a software engineer.
 
+![SiriOS Preview](./public/preview.png)
+
+---
+
+## ✦ About
+
+SiriOS isn't just another portfolio.
+
+It's designed like a lightweight operating system where every section feels like opening an application. Instead of scrolling through a traditional website, visitors explore projects, skills, and experiences through a clean desktop-inspired interface.
+
+The goal was to create something memorable while keeping the experience fast, minimal, and developer-focused.
+
+---
+
+## ✦ Features
+
+* 🖥️ Desktop-inspired UI
+* ⚡ Smooth page transitions
+* 🎨 Anime Gothic design language
+* ⌨️ Terminal-inspired interactions
+* 🧩 Modular application windows
+* 🌙 Dark-first experience
+* 📱 Fully responsive
+* ♿ Accessible components
+* 🚀 Optimized with Next.js App Router
+
+---
+
+## ✦ Tech Stack
+
+### Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+
+### Animations
+
+* Framer Motion
+
+### Icons
+
+* Lucide React
+
+### Deployment
+
+* Vercel
+
+---
+
+## ✦ Project Structure
+
+```text
+app/
+components/
+data/
+hooks/
+lib/
+public/
+styles/
 ```
-components/about/AboutPanel.tsx
-components/skills/SkillsModules.tsx
-components/projects/AppCard.tsx
-components/projects/FeaturedProjects.tsx
-data/projects.ts
-data/skills.ts
-hooks/useTypewriter.ts
-```
 
-## ⚠️ Placeholder content — edit before shipping
+---
 
-`data/projects.ts` and `data/skills.ts` are filled with placeholder copy
-(CineVerse kept as `featured: true` per PRD.md §13, but its description,
-your skill list, "Project Three," etc. are all stand-ins). Same for the
-bio/philosophy/interests text hardcoded in `AboutPanel.tsx` — PRD.md §12
-says "no large paragraphs," so keep each block to 2–3 sentences when you
-rewrite them.
+## ✦ Local Development
 
-## Wiring into your existing `page.tsx`
-
-I didn't touch `app/page.tsx` since you've already got your own content
-there. Add these sections wherever they belong in your existing layout —
-each has its own `id` for the sidebar nav anchors (`#about`, `#projects`)
-already baked in:
-
-```tsx
-import { Hero } from "@/components/hero/Hero";
-import { AboutPanel } from "@/components/about/AboutPanel";
-import { SkillsModules } from "@/components/skills/SkillsModules";
-import { FeaturedProjects } from "@/components/projects/FeaturedProjects";
-
-export default function Home() {
-  return (
-    <>
-      <section id="home" className="scroll-mt-20">
-        <Hero />
-      </section>
-      <AboutPanel />
-      <SkillsModules />
-      <FeaturedProjects />
-      {/* JourneyTimeline and Contact land in Phase 3 */}
-    </>
-  );
-}
-```
-
-## Typing animation on the tagline
-
-`useTypewriter` is a standalone hook — I didn't touch your `Hero.tsx`
-directly since you've already customized it. Wire it in like this:
-
-```tsx
-import { useTypewriter } from "@/hooks/useTypewriter";
-
-// inside Hero component:
-const tagline = useTypewriter("Software Engineer · Kerala · Anime Gothic");
-
-// in the JSX, replace your static <p> with:
-<p>{tagline}</p>
-```
-
-This needs `Hero.tsx` to be a client component (`"use client"` at the top)
-since it uses a hook — it already imports `AsciiPortrait` which is a client
-component too, so this shouldn't change anything about how it renders.
-
-## Notes on choices made
-
-- **No colorful skill badges** — `SkillsModules` reuses the existing `Tag`
-  component as-is (accent border, no per-category color), per PRD.md §14's
-  "no colorful badges, consistent styling."
-- **`/projects/[slug]` route doesn't exist yet** — `AppCard` links there
-  already; the actual route + `AppWindow` layout is Phase 3 in
-  IMPLEMENTATION_GUIDE.md. Links will 404 until then, which is expected at
-  this stage.
-- **`FeaturedProjects.tsx`** isn't individually named in
-  SYSTEM_ARCHITECTURE.md's file list (only `AppCard.tsx` is) — it's just
-  the grid wrapper, same kind of small addition as `Shell.tsx` was in
-  Phase 1.
-
-## Suggested commit split
+Clone the repository.
 
 ```bash
-git add data/projects.ts data/skills.ts
-git commit -m "feat(data): add projects and skills content"
-
-git add components/about/AboutPanel.tsx
-git commit -m "feat(about): add about section with bio/philosophy/interests"
-
-git add components/skills/SkillsModules.tsx
-git commit -m "feat(skills): add system-modules skills grid"
-
-git add components/projects/AppCard.tsx components/projects/FeaturedProjects.tsx
-git commit -m "feat(projects): add featured projects grid"
-
-git add hooks/useTypewriter.ts
-git commit -m "feat(hero): add typewriter hook for tagline"
-
-# then after you manually wire page.tsx / Hero.tsx:
-git add app/page.tsx components/hero/Hero.tsx
-git commit -m "feat(home): wire About, Skills, Projects sections into homepage"
+git clone https://github.com/yourusername/SiriOS.git
 ```
+
+Move into the project.
+
+```bash
+cd SiriOS
+```
+
+Install dependencies.
+
+```bash
+npm install
+```
+
+Start the development server.
+
+```bash
+npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## ✦ Design Philosophy
+
+The design follows a few simple principles.
+
+* Minimal over flashy
+* Motion with purpose
+* Typography first
+* Strong visual hierarchy
+* Every interaction should feel intentional
+
+---
+
+## ✦ Roadmap
+
+* [x] Landing Hero
+* [x] Responsive Navigation
+* [x] About Section
+* [x] Skills Modules
+* [x] Featured Projects
+* [ ] Project Detail Pages
+* [ ] Interactive Timeline
+* [ ] Contact Application
+* [ ] Blog
+* [ ] Theme Customization
+
+---
+
+## ✦ Performance Goals
+
+* Lighthouse Score ≥ 95
+* Optimized Images
+* Server Components where possible
+* Minimal JavaScript
+* Fast First Paint
+
+---
+
+## ✦ Inspiration
+
+Inspired by:
+
+* Modern editorial websites
+* Operating system interfaces
+* Terminal aesthetics
+* Anime-inspired visual storytelling
+* Minimal developer portfolios
+
+---
+
+## ✦ Connect
+
+Portfolio: **(Coming Soon)**
+
+GitHub: **https://github.com/yourusername**
+
+LinkedIn: **https://linkedin.com/in/yourusername**
+
+Email: **[you@example.com](mailto:you@example.com)**
+
+---
+
+> *Built with curiosity, coffee, and way too many late-night design iterations.*
