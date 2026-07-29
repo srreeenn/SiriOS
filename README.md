@@ -160,7 +160,7 @@ GitHub: **https://github.com/srreeenn**
 
 LinkedIn: **https://linkedin.com/in/srreeenn**
 
-Email: **[you@example.com](mailto:sreenandanapa16@gmail.com)**
+Email: **[sreenandanapa16@gmail.com](mailto:sreenandanapa16@gmail.com)**
 
 ---
 
