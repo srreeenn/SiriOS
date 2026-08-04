@@ -1,4 +1,3 @@
-# ⚡ SiriOS
 
 > **My personal operating system.**
 >
