@@ -97,7 +97,7 @@ npm run dev
 Open:
 
 ```text
-http://localhost:3000
+https://sirriii.vercel.app
 ```
 
 ---
