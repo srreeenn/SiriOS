@@ -153,8 +153,6 @@ Inspired by:
 
 ## ✦ Connect
 
-Portfolio: **(Coming Soon)**
-
 GitHub: **https://github.com/srreeenn**
 
 LinkedIn: **https://linkedin.com/in/srreeenn**
